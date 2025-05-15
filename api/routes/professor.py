@@ -170,5 +170,3 @@ def excluir_professor(id):
     finally:
         cursor.close()
         conn.close()
-
-    return jsonify({"message": "Professor excluído com sucesso!"})

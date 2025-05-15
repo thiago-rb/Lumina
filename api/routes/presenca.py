@@ -170,5 +170,3 @@ def excluir_presenca(id):
     finally:
         cursor.close()
         conn.close()
-
-    return jsonify({"message": "Presença excluída com sucesso!"})
