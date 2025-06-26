@@ -31,6 +31,27 @@ O **Lumína** é um sistema de gerenciamento escolar completo que permite admini
 
 ## Arquitetura
 
+### Arquitetura do Backend
+
+O backend foi desenvolvido seguindo os princípios de arquitetura em camadas e padrão MVC adaptado para APIs REST:
+
+**Camada de Apresentação (API Layer):**
+- **Flask Application** (`app.py`): Ponto de entrada da aplicação
+- **Blueprints** (`routes/`): Organização modular das rotas por entidade
+- **Swagger/Flasgger**: Documentação automática da API
+
+**Camada de Negócio (Business Layer):**
+- **CRUD Operations**: Lógica de negócio implementada em cada rota
+- **Validação de Dados**: Tratamento e validação de entrada
+- **Log System**: Sistema de auditoria e monitoramento
+
+**Camada de Dados (Data Layer):**
+- **Database Connection** (`db.py`): Gerenciamento de conexões PostgreSQL
+- **SQL Queries**: Operações diretas no banco de dados
+- **Transaction Management**: Controle de transações
+
+### Arquitetura de Microserviços
+
 O sistema utiliza uma arquitetura de microserviços containerizada:
 
 ```
@@ -119,7 +140,7 @@ cd Lumína
 
 ### 2. Execute com Docker Compose
 ```bash
-# Inicia todos os serviços
+# Inicia todos os serviços (backend Python na pasta APP)
 docker-compose up -d
 
 # Para ver os logs em tempo real
@@ -129,7 +150,21 @@ docker-compose logs -f
 docker-compose down
 ```
 
-### 3. Verificar Serviços
+### 3. Executar Backend Python Diretamente
+```bash
+# Navegar para a pasta APP (requisito de entrega)
+cd APP
+
+# Instalar dependências
+pip install -r requirements.txt
+
+# Executar aplicação Python
+python app.py
+
+# A API estará disponível em http://localhost:5000
+```
+
+### 4. Verificar Serviços
 Após a execução, os seguintes serviços estarão disponíveis:
 
 | Serviço | URL | Descrição |
@@ -140,7 +175,7 @@ Após a execução, os seguintes serviços estarão disponíveis:
 | Prometheus | http://localhost:9090 | Métricas do sistema |
 | PostgreSQL | localhost:5432 | Banco de dados |
 
-### 4. Credenciais Padrão
+### 5. Credenciais Padrão
 
 **Banco de dados:**
 - Host: localhost
@@ -240,7 +275,7 @@ POST /alunos/
 
 ```
 Lumína/
-├── api/                          # API Flask
+├── APP/                          # Backend Python (Requisito de Entrega)
 │   ├── routes/                   # Rotas organizadas por módulo
 │   │   ├── aluno.py             # CRUD de alunos
 │   │   ├── atividade_aluno.py   # Relacionamento atividade-aluno
@@ -252,6 +287,7 @@ Lumína/
 │   │   └── usuario.py           # CRUD de usuários
 │   ├── app.py                   # Aplicação principal Flask
 │   ├── db.py                    # Configuração do banco
+│   ├── log_config.py            # Configuração de logs
 │   ├── Dockerfile               # Container da API
 │   ├── requirements.txt         # Dependências Python
 │   └── test_app.py             # Testes automatizados

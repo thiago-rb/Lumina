@@ -15,7 +15,7 @@ services:
 
   api:
     build:
-      context: ./api
+      context: ./APP
       dockerfile: Dockerfile
     container_name: api_escolar
     ports:
