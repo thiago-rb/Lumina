@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, request
 from flasgger import swag_from
 from db import connect_db
+from log_config import logger
 
 professor_bp = Blueprint('professor', __name__)
 
@@ -33,9 +34,11 @@ def listar_professores():
     try:
         conn = connect_db()
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM Professor")
+        cursor.execute("SELECT * FROM professor")
         professores = cursor.fetchall()
+        logger.info(f"READ: Listagem de {len(professores)} professores realizada.")
     except Exception as e:
+        logger.error(f"READ: Erro ao listar professores - {str(e)}")
         return jsonify({"error": f"Erro ao listar professores: {str(e)}"}), 500
     finally:
         cursor.close()
@@ -77,11 +80,14 @@ def criar_professor():
         conn = connect_db()
         cursor = conn.cursor()
         cursor.execute("""
-            INSERT INTO Professor (nome_completo, email, telefone)
+            INSERT INTO professor (nome_completo, email, telefone)
             VALUES (%s, %s, %s)
         """, (dados['nome_completo'], dados['email'], dados['telefone']))
         conn.commit()
+        professor_id = cursor.lastrowid
+        logger.info(f"CREATE: Professor {dados['nome_completo']} criado com sucesso. ID: {professor_id}")
     except Exception as e:
+        logger.error(f"CREATE: Erro ao criar professor {dados.get('nome_completo', 'N/A')} - {str(e)}")
         return jsonify({"error": f"Erro ao criar professor: {str(e)}"}), 400
     finally:
         cursor.close()
@@ -127,12 +133,14 @@ def atualizar_professor(id):
         conn = connect_db()
         cursor = conn.cursor()
         cursor.execute("""
-            UPDATE Professor
+            UPDATE professor
             SET nome_completo=%s, email=%s, telefone=%s
             WHERE id_professor=%s
         """, (dados['nome_completo'], dados['email'], dados['telefone'], id))
         conn.commit()
+        logger.info(f"UPDATE: Professor com ID {id} atualizado. Novos dados: {dados}")
     except Exception as e:
+        logger.error(f"UPDATE: Erro ao atualizar professor {id} - {str(e)}")
         return jsonify({"error": f"Erro ao atualizar professor: {str(e)}"}), 400
     finally:
         cursor.close()
@@ -163,10 +171,17 @@ def excluir_professor(id):
     try:
         conn = connect_db()
         cursor = conn.cursor()
-        cursor.execute("DELETE FROM Professor WHERE id_professor=%s", (id,))
+        cursor.execute("DELETE FROM professor WHERE id_professor=%s", (id,))
+        if cursor.rowcount == 0:
+            logger.error(f"DELETE: Falha ao deletar professor {id} - Não encontrado.")
+            return jsonify({"error": "Professor não encontrado."}), 404
         conn.commit()
+        logger.info(f"DELETE: Professor com ID {id} removido com sucesso.")
     except Exception as e:
+        logger.error(f"DELETE: Erro ao excluir professor {id} - {str(e)}")
         return jsonify({"error": f"Erro ao excluir professor: {str(e)}"}), 400
     finally:
         cursor.close()
         conn.close()
+
+    return jsonify({"message": "Professor excluído com sucesso!"}), 200

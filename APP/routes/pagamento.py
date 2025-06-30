@@ -36,7 +36,7 @@ def listar_pagamentos():
     try:
         conn = connect_db()
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM Pagamento")
+        cursor.execute("SELECT * FROM pagamento")
         pagamentos = cursor.fetchall()
     except Exception as e:
         return jsonify({"error": f"Erro ao listar pagamentos: {str(e)}"}), 500
@@ -84,7 +84,7 @@ def criar_pagamento():
         conn = connect_db()
         cursor = conn.cursor()
         cursor.execute("""
-            INSERT INTO Pagamento (id_aluno, data_pagamento, valor_pago, forma_pagamento, referencia, status)
+            INSERT INTO pagamento (id_aluno, data_pagamento, valor_pago, forma_pagamento, referencia, status)
             VALUES (%s, %s, %s, %s, %s, %s)
         """, (dados['id_aluno'], dados['data_pagamento'], dados['valor_pago'], dados['forma_pagamento'], dados['referencia'], dados['status']))
         conn.commit()
@@ -137,7 +137,7 @@ def atualizar_pagamento(id):
         conn = connect_db()
         cursor = conn.cursor()
         cursor.execute("""
-            UPDATE Pagamento
+            UPDATE pagamento
             SET id_aluno=%s, data_pagamento=%s, valor_pago=%s, forma_pagamento=%s, referencia=%s, status=%s
             WHERE id_pagamento=%s
         """, (dados['id_aluno'], dados['data_pagamento'], dados['valor_pago'], dados['forma_pagamento'], dados['referencia'], dados['status'], id))
@@ -173,7 +173,7 @@ def excluir_pagamento(id):
     try:
         conn = connect_db()
         cursor = conn.cursor()
-        cursor.execute("DELETE FROM Pagamento WHERE id_pagamento=%s", (id,))
+        cursor.execute("DELETE FROM pagamento WHERE id_pagamento=%s", (id,))
         conn.commit()
     except Exception as e:
         return jsonify({"error": f"Erro ao excluir pagamento: {str(e)}"}), 400

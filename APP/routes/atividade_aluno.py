@@ -31,7 +31,7 @@ def listar_atividades_alunos():
     try:
         conn = connect_db()
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM Atividade_Aluno")
+        cursor.execute("SELECT * FROM atividade_aluno")
         atividades_alunos = cursor.fetchall()
     except Exception as e:
         return jsonify({"error": f"Erro ao listar atividades e alunos: {str(e)}"}), 500
@@ -72,7 +72,7 @@ def criar_atividade_aluno():
         conn = connect_db()
         cursor = conn.cursor()
         cursor.execute("""
-            INSERT INTO Atividade_Aluno (id_atividade, id_aluno)
+            INSERT INTO atividade_aluno (id_atividade, id_aluno)
             VALUES (%s, %s)
         """, (dados['id_atividade'], dados['id_aluno']))
         conn.commit()
@@ -115,7 +115,7 @@ def excluir_atividade_aluno():
         conn = connect_db()
         cursor = conn.cursor()
         cursor.execute("""
-            DELETE FROM Atividade_Aluno
+            DELETE FROM atividade_aluno
             WHERE id_atividade=%s AND id_aluno=%s
         """, (dados['id_atividade'], dados['id_aluno']))
         conn.commit()

@@ -33,7 +33,7 @@ def listar_presencas():
     try:
         conn = connect_db()
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM Presenca")
+        cursor.execute("SELECT * FROM presenca")
         presencas = cursor.fetchall()
     except Exception as e:
         return jsonify({"error": f"Erro ao listar presenças: {str(e)}"}), 500
@@ -77,7 +77,7 @@ def criar_presenca():
         conn = connect_db()
         cursor = conn.cursor()
         cursor.execute("""
-            INSERT INTO Presenca (id_aluno, data_presenca, presente)
+            INSERT INTO presenca (id_aluno, data_presenca, presente)
             VALUES (%s, %s, %s)
         """, (dados['id_aluno'], dados['data_presenca'], dados['presente']))
         conn.commit()
@@ -127,7 +127,7 @@ def atualizar_presenca(id):
         conn = connect_db()
         cursor = conn.cursor()
         cursor.execute("""
-            UPDATE Presenca
+            UPDATE presenca
             SET id_aluno=%s, data_presenca=%s, presente=%s
             WHERE id_presenca=%s
         """, (dados['id_aluno'], dados['data_presenca'], dados['presente'], id))
@@ -163,7 +163,7 @@ def excluir_presenca(id):
     try:
         conn = connect_db()
         cursor = conn.cursor()
-        cursor.execute("DELETE FROM Presenca WHERE id_presenca=%s", (id,))
+        cursor.execute("DELETE FROM presenca WHERE id_presenca=%s", (id,))
         conn.commit()
     except Exception as e:
         return jsonify({"error": f"Erro ao excluir presença: {str(e)}"}), 400

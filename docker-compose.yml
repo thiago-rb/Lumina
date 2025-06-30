@@ -2,7 +2,7 @@
 services:
   db:
     image: postgres:latest
-    container_name: db_escolar
+    container_name: lumina_db
     environment:
       POSTGRES_DB: escola
       POSTGRES_USER: postgres
@@ -17,7 +17,7 @@ services:
     build:
       context: ./APP
       dockerfile: Dockerfile
-    container_name: api_escolar
+    container_name: lumina_api
     ports:
       - "5000:5000"
     depends_on:

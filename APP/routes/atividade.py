@@ -32,7 +32,7 @@ def listar_atividades():
     try:
         conn = connect_db()
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM Atividade")
+        cursor.execute("SELECT * FROM atividade")
         atividades = cursor.fetchall()
     except Exception as e:
         return jsonify({"error": f"Erro ao listar atividades: {str(e)}"}), 500
@@ -73,7 +73,7 @@ def criar_atividade():
         conn = connect_db()
         cursor = conn.cursor()
         cursor.execute("""
-            INSERT INTO Atividade (descricao, data_realizacao)
+            INSERT INTO atividade (descricao, data_realizacao)
             VALUES (%s, %s)
         """, (dados['descricao'], dados['data_realizacao']))
         conn.commit()
@@ -122,7 +122,7 @@ def atualizar_atividade(id):
         conn = connect_db()
         cursor = conn.cursor()
         cursor.execute("""
-            UPDATE Atividade
+            UPDATE atividade
             SET descricao=%s, data_realizacao=%s
             WHERE id_atividade=%s
         """, (dados['descricao'], dados['data_realizacao'], id))
@@ -158,7 +158,7 @@ def excluir_atividade(id):
     try:
         conn = connect_db()
         cursor = conn.cursor()
-        cursor.execute("DELETE FROM Atividade WHERE id_atividade=%s", (id,))
+        cursor.execute("DELETE FROM atividade WHERE id_atividade=%s", (id,))
         conn.commit()
     except Exception as e:
         return jsonify({"error": f"Erro ao excluir atividade: {str(e)}"}), 400

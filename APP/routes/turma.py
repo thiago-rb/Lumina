@@ -33,7 +33,7 @@ def listar_turmas():
     try:
         conn = connect_db()
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM Turma")
+        cursor.execute("SELECT * FROM turma")
         turmas = cursor.fetchall()
     except Exception as e:
         return jsonify({"error": f"Erro ao listar turmas: {str(e)}"}), 500
@@ -77,7 +77,7 @@ def criar_turma():
         conn = connect_db()
         cursor = conn.cursor()
         cursor.execute("""
-            INSERT INTO Turma (nome_turma, id_professor, horario)
+            INSERT INTO turma (nome_turma, id_professor, horario)
             VALUES (%s, %s, %s)
         """, (dados['nome_turma'], dados['id_professor'], dados['horario']))
         conn.commit()
@@ -127,7 +127,7 @@ def atualizar_turma(id):
         conn = connect_db()
         cursor = conn.cursor()
         cursor.execute("""
-            UPDATE Turma
+            UPDATE turma
             SET nome_turma=%s, id_professor=%s, horario=%s
             WHERE id_turma=%s
         """, (dados['nome_turma'], dados['id_professor'], dados['horario'], id))
@@ -163,7 +163,7 @@ def excluir_turma(id):
     try:
         conn = connect_db()
         cursor = conn.cursor()
-        cursor.execute("DELETE FROM Turma WHERE id_turma=%s", (id,))
+        cursor.execute("DELETE FROM turma WHERE id_turma=%s", (id,))
         conn.commit()
     except Exception as e:
         return jsonify({"error": f"Erro ao excluir turma: {str(e)}"}), 400

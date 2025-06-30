@@ -33,7 +33,7 @@ def listar_usuarios():
     try:
         conn = connect_db()
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM Usuario")
+        cursor.execute("SELECT * FROM usuario")
         usuarios = cursor.fetchall()
     except Exception as e:
         return jsonify({"error": f"Erro ao listar usuários: {str(e)}"}), 500
@@ -78,7 +78,7 @@ def criar_usuario():
         conn = connect_db()
         cursor = conn.cursor()
         cursor.execute("""
-            INSERT INTO Usuario (login, senha, nivel_acesso, id_professor)
+            INSERT INTO usuario (login, senha, nivel_acesso, id_professor)
             VALUES (%s, %s, %s, %s)
         """, (dados['login'], dados['senha'], dados['nivel_acesso'], dados.get('id_professor')))
         conn.commit()
@@ -129,7 +129,7 @@ def atualizar_usuario(id):
         conn = connect_db()
         cursor = conn.cursor()
         cursor.execute("""
-            UPDATE Usuario
+            UPDATE usuario
             SET login=%s, senha=%s, nivel_acesso=%s, id_professor=%s
             WHERE id_usuario=%s
         """, (dados['login'], dados['senha'], dados['nivel_acesso'], dados.get('id_professor'), id))
@@ -165,7 +165,7 @@ def excluir_usuario(id):
     try:
         conn = connect_db()
         cursor = conn.cursor()
-        cursor.execute("DELETE FROM Usuario WHERE id_usuario=%s", (id,))
+        cursor.execute("DELETE FROM usuario WHERE id_usuario=%s", (id,))
         conn.commit()
     except Exception as e:
         return jsonify({"error": f"Erro ao excluir usuário: {str(e)}"}), 400

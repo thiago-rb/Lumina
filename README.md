@@ -141,7 +141,7 @@ cd Lumína
 ### 2. Execute com Docker Compose
 ```bash
 # Inicia todos os serviços (backend Python na pasta APP)
-docker-compose up -d
+docker-compose up --build -d
 
 # Para ver os logs em tempo real
 docker-compose logs -f
@@ -150,44 +150,67 @@ docker-compose logs -f
 docker-compose down
 ```
 
-### 3. Executar Backend Python Diretamente
+### 3. Aguardar Inicialização
 ```bash
-# Navegar para a pasta APP (requisito de entrega)
+# Aguarde 30-60 segundos para todos os serviços iniciarem
+# Verifique se os containers estão rodando
+docker-compose ps
+```
+
+### 4. Testar a API
+```bash
+# Teste básico no navegador ou terminal
+curl http://localhost:5000/professores/
+
+# Ou acesse diretamente no navegador:
+# http://localhost:5000/professores/
+```
+
+### 5. Verificar Serviços
+Após a execução, os seguintes serviços estarão disponíveis:
+
+| Serviço | URL | Status |
+|---------|-----|--------|
+| **API Principal** | http://localhost:5000 | ✅ Funcionando |
+| **Swagger Docs** | http://localhost:5000/apidocs/ | 📚 Documentação |
+| **Health Check** | http://localhost:5000/health | 💚 Saúde da API |
+| **Grafana** | http://localhost:3000 | 📊 Monitoramento |
+| **Prometheus** | http://localhost:9090 | 📈 Métricas |
+| **PostgreSQL** | localhost:5432 | 🗄️ Banco de dados |
+
+### 6. Credenciais de Acesso
+
+**Banco de dados PostgreSQL:**
+- Host: `localhost`
+- Port: `5432`
+- Database: `escola`
+- Username: `postgres`
+- Password: `postgres`
+
+**Grafana Dashboard:**
+- URL: http://localhost:3000
+- Username: `admin`
+- Password: `admin` (alterar no primeiro acesso)
+
+### 7. Executar Backend Python Localmente (Opcional)
+```bash
+# Navegar para a pasta APP
 cd APP
 
 # Instalar dependências
 pip install -r requirements.txt
+
+# Configurar variáveis de ambiente (opcional)
+set DB_HOST=localhost
+set DB_NAME=escola
+set DB_USER=postgres
+set DB_PASSWORD=postgres
 
 # Executar aplicação Python
 python app.py
 
 # A API estará disponível em http://localhost:5000
 ```
-
-### 4. Verificar Serviços
-Após a execução, os seguintes serviços estarão disponíveis:
-
-| Serviço | URL | Descrição |
-|---------|-----|-----------|
-| API Principal | http://localhost:5000 | API REST do sistema |
-| Documentação Swagger | http://localhost:5000/apidocs | Documentação interativa da API |
-| Grafana | http://localhost:3000 | Dashboard de monitoramento |
-| Prometheus | http://localhost:9090 | Métricas do sistema |
-| PostgreSQL | localhost:5432 | Banco de dados |
-
-### 5. Credenciais Padrão
-
-**Banco de dados:**
-- Host: localhost
-- Port: 5432
-- Database: escola
-- User: postgres
-- Password: postgres
-
-**Grafana:**
-- URL: http://localhost:3000
-- User: admin
-- Password: admin (será solicitado para alterar no primeiro acesso)
 
 ## Documentação da API
 
@@ -198,7 +221,7 @@ A API possui documentação completa gerada automaticamente com Swagger. Acesse:
 ### Principais Endpoints:
 
 #### Alunos
-- `GET /alunos/aluno` - Listar todos os alunos
+- `GET /alunos/` - Listar todos os alunos
 - `POST /alunos/` - Criar novo aluno
 - `PUT /alunos/{id}` - Atualizar aluno
 - `DELETE /alunos/{id}` - Excluir aluno
@@ -252,6 +275,15 @@ POST /alunos/
   "informacoes_adicionais": "Sem alergias"
 }
 ```
+
+### Melhorias Implementadas:
+- **Validação de dados** obrigatórios
+- **Logs padronizados** em todas as operações
+- **Tratamento de erros** aprimorado
+- **Configuração Swagger** personalizada
+- **Endpoints de saúde** (/health)
+- **SQL PostgreSQL** corrigido
+- **Dependências atualizadas**
 
 ## Monitoramento
 
@@ -348,35 +380,124 @@ O sistema gera logs estruturados em `escola_infantil.log` com:
 2025-01-27 10:32:10,789 - ERROR - DELETE: Erro ao excluir aluno 999 - Aluno não encontrado.
 ```
 
-## Testes
+## Testes da API
 
-Execute os testes automatizados:
+### Teste Rápido no Navegador:
+```
+http://localhost:5000/professores/
+http://localhost:5000/alunos/
+http://localhost:5000/turmas/
+```
 
+### Teste com Postman/Insomnia:
+
+**GET - Listar Dados:**
+```
+GET http://localhost:5000/professores/
+GET http://localhost:5000/alunos/
+GET http://localhost:5000/turmas/
+```
+
+**POST - Criar Professor:**
+```
+POST http://localhost:5000/professores/
+Content-Type: application/json
+
+{
+  "nome_completo": "Maria Santos",
+  "email": "maria.santos@escola.com",
+  "telefone": "11999887766"
+}
+```
+
+**PUT - Atualizar Professor:**
+```
+PUT http://localhost:5000/professores/1
+Content-Type: application/json
+
+{
+  "nome_completo": "Ana Souza Silva",
+  "email": "ana.souza@escola.com",
+  "telefone": "11987654321"
+}
+```
+
+**DELETE - Excluir Professor:**
+```
+DELETE http://localhost:5000/professores/3
+```
+
+### Testes Automatizados:
 ```bash
 # Dentro do container da API
 docker-compose exec api pytest test_app.py -v
 
 # Ou localmente (se tiver Python configurado)
-cd api
+cd APP
 pytest test_app.py -v
 ```
 
-## Desenvolvimento
+## Solução de Problemas
 
-### Executar em Modo de Desenvolvimento:
+### Problema: Erro "table not found"
 ```bash
-# Para desenvolvimento local (sem Docker)
-cd api
+# Recriar banco de dados
+docker-compose down
+docker volume rm lumna_db_data
+docker-compose up --build -d
+```
+
+### Problema: Containers não iniciam
+```bash
+# Verificar status
+docker-compose ps
+
+# Ver logs de erro
+docker-compose logs
+
+# Reiniciar serviços
+docker-compose restart
+```
+
+### Problema: API não responde
+```bash
+# Verificar se a API está rodando
+curl http://localhost:5000/health
+
+# Reiniciar apenas a API
+docker-compose restart api
+```
+
+### Desenvolvimento Local
+
+**Executar sem Docker:**
+```bash
+cd APP
 pip install -r requirements.txt
 python app.py
 ```
 
-### Variáveis de Ambiente:
+**Variáveis de Ambiente:**
 ```bash
 DB_HOST=localhost      # Host do banco
 DB_NAME=escola         # Nome do banco
 DB_USER=postgres       # Usuário do banco
 DB_PASSWORD=postgres   # Senha do banco
+```
+
+**Comandos Úteis:**
+```bash
+# Parar todos os serviços
+docker-compose down
+
+# Reconstruir e iniciar
+docker-compose up --build -d
+
+# Ver logs em tempo real
+docker-compose logs -f api
+
+# Limpar volumes (apaga dados)
+docker-compose down -v
 ```
 
 ## Contribuição
