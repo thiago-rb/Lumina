@@ -134,13 +134,13 @@ O sistema utiliza uma arquitetura de microserviços containerizada:
 
 ### 1. Clone o Repositório
 ```bash
-git clone <url-do-repositorio>
+git clone <https://github.com/thiago-rb/Lumina>
 cd Lumína
 ```
 
 ### 2. Execute com Docker Compose
 ```bash
-# Inicia todos os serviços (backend Python na pasta APP)
+# Inicia todos os serviços
 docker-compose up --build -d
 
 # Para ver os logs em tempo real
@@ -159,8 +159,10 @@ docker-compose ps
 
 ### 4. Testar a API
 ```bash
-# Teste básico no navegador ou terminal
-curl http://localhost:5000/professores/
+# Testar no POSTMAN
+http://localhost:5000/professores/ --EXEMPLO
+
+Arquivo contendo as rotas do postman "Lumína - Sistema de gerenciamento escolar.postman_collection.json"
 
 # Ou acesse diretamente no navegador:
 # http://localhost:5000/professores/
@@ -200,8 +202,11 @@ cd APP
 # Instalar dependências
 pip install -r requirements.txt
 
-# Configurar variáveis de ambiente (opcional)
+# Configurar conexão no dbeaver
+BANCO DE DADOS EM POSTGRES
+
 set DB_HOST=localhost
+set PORTA=5432
 set DB_NAME=escola
 set DB_USER=postgres
 set DB_PASSWORD=postgres

@@ -1,0 +1,382 @@
+{
+	"info": {
+		"_postman_id": "580edb52-8b20-40eb-bd13-7f18783ebbf1",
+		"name": "Lumína - Sistema de gerenciamento escolar",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "42937079"
+	},
+	"item": [
+		{
+			"name": "Professor",
+			"item": [
+				{
+					"name": "GET professor",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "POST professor",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nome_completo\": \"Alexandre\",\r\n  \"email\": \"alexandre.ads@escola.com\",\r\n  \"telefone\": \"11999887766\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/professores/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"professores",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT professores",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nome_completo\": \"Maria Santos\",\r\n  \"email\": \"maria.santos@escola.com\",\r\n  \"telefone\": \"11999887766\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:5000/professores/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"professores",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE professores",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/professores/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"professores",
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Aluno",
+			"item": [
+				{
+					"name": "GET aluno",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "POST aluno",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nome_completo\": \"Pedro Oliveira\",\r\n  \"data_nascimento\": \"2012-03-15\",\r\n  \"id_turma\": 1,\r\n  \"nome_responsavel\": \"Ana Oliveira\",\r\n  \"telefone_responsavel\": \"11988776655\",\r\n  \"email_responsavel\": \"ana.oliveira@gmail.com\",\r\n  \"informacoes_adicionais\": \"Alergia a amendoim\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/alunos/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"alunos",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT aluno",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/alunos/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"alunos",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE aluno",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/alunos/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"alunos",
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Turma",
+			"item": [
+				{
+					"name": "GET turma",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:5000/turmas/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"turmas",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST turma",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nome_turma\": \"Turma C\",\r\n  \"id_professor\": 1,\r\n  \"horario\": \"14:00 - 18:00\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/turmas/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"turmas",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT turma",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nome_turma\": \"Turma A - Manhã\",\r\n  \"id_professor\": 2,\r\n  \"horario\": \"07:30 - 11:30\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:5000/turmas/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"turmas",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nome_turma\": \"Turma A - Manhã\",\r\n  \"id_professor\": 2,\r\n  \"horario\": \"07:30 - 11:30\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:5000/turmas/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"turmas",
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Atividade",
+			"item": [
+				{
+					"name": "GET atividade",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nome_turma\": \"Turma A - Manhã\",\r\n  \"id_professor\": 2,\r\n  \"horario\": \"07:30 - 11:30\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:5000/atividades/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"atividades",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
